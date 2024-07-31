@@ -8,8 +8,12 @@ data "http" "workstation-external-ip" {
     workstation-external-cidr = "${chomp(data.http.workstation-external-ip.response_body)}/32"
   }
   
-data "aws_subnet_ids" "subnet_id" {
-  vpc_id = var.vpc_id
+data "aws_subnets" "subnet_id" {
+  filter {
+    name = "vpc-id"
+    values = [var.vpc_id]
+  }
+  
 
   tags = {
     Name = "jenkins_subnet*"
