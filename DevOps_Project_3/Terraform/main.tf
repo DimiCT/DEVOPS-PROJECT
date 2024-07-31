@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   role       = aws_iam_role.cluster_role.name
 }
 
-resource "aws_eks_cluster" "ngg_cluster_name" {
+resource "aws_eks_cluster" "ngg_cluster" {
     name = var.cluster_name
     role_arn = aws_iam_role.cluster_role.arn
     version = "1.29"
