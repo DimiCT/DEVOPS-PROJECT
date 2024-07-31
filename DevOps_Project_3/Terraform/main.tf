@@ -87,7 +87,7 @@ resource "aws_eks_cluster" "myeks" {
     version = "1.24"
     vpc_config {
         
-        subnet_ids = data.aws_subnet_ids.subnet_id.ids
+        subnet_ids = data.aws_subnets.subnet_id.ids
         endpoint_private_access = false
         endpoint_public_access = true
         security_group_ids = [aws_security_group.EKS_SG.id]
