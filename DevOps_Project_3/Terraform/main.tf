@@ -84,7 +84,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
 resource "aws_eks_cluster" "awake" {
     name = var.cluster_name
     role_arn = aws_iam_role.cluster_role.arn
-    version = "1.29"
+    version = "1.30"
     vpc_config {
         
         subnet_ids = data.aws_subnets.subnet_id.ids
@@ -141,8 +141,8 @@ resource "aws_eks_node_group" "mynode_node" {
     subnet_ids = data.aws_subnets.subnet_id.ids
 
     scaling_config {
-        desired_size = 1
-        max_size = 1
+        desired_size = 3
+        max_size = 3
         min_size = 1
     }
 
