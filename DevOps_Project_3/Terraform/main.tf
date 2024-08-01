@@ -58,7 +58,7 @@ resource "aws_security_group" "EKS_SG" {
 
 
 resource "aws_iam_role" "cluster_role" {
-  name = "${var.cluster_name}-eks-cluster-cluster_role"
+  name = "${var.cluster_name}-awake-cluster-cluster_role"
 
   assume_role_policy = <<POLICY
 {
@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   role       = aws_iam_role.cluster_role.name
 }
 
-resource "aws_eks_cluster" "awake" {
+resource "aws_eks_cluster" "awake-cluster" {
     name = var.cluster_name
     role_arn = aws_iam_role.cluster_role.arn
     version = "1.30"
