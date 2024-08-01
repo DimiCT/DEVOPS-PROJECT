@@ -3,17 +3,17 @@ data "http" "workstation-external-ip" {
 }
 
 #locals {
-  #workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
-  locals {
-    workstation-external-cidr = "${chomp(data.http.workstation-external-ip.response_body)}/32"
-  }
-  
+#workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
+locals {
+  workstation-external-cidr = "${chomp(data.http.workstation-external-ip.response_body)}/32"
+}
+
 data "aws_subnets" "subnet_id" {
   filter {
-    name = "vpc-id"
+    name   = "vpc-id"
     values = [var.vpc_id]
   }
-  
+
 
   tags = {
     Name = "jenkins_subnet*"
@@ -22,7 +22,7 @@ data "aws_subnets" "subnet_id" {
 
 
 output "subnet_ids" {
-    value = data.aws_subnets.subnet_id.ids
+  value = data.aws_subnets.subnet_id.ids
 }
 
 
@@ -31,24 +31,24 @@ resource "aws_security_group" "EKS_SG" {
   name        = "${var.cluster_name}-sg"
   description = "${var.cluster_name}-sg"
   vpc_id      = var.vpc_id
-  
+
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = [local.workstation-external-cidr]
-    
+    description = "TLS from VPC"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [local.workstation-external-cidr]
+
   }
 
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+
   }
 
   tags = {
@@ -82,17 +82,17 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
 }
 
 resource "aws_eks_cluster" "awake-cluster" {
-    name = var.cluster_name
-    role_arn = aws_iam_role.cluster_role.arn
-    version = "1.30"
-    vpc_config {
-        
-        subnet_ids = data.aws_subnets.subnet_id.ids
-        endpoint_private_access = false
-        endpoint_public_access = true
-        security_group_ids = [aws_security_group.EKS_SG.id]
-    
-    }
+  name     = var.cluster_name
+  role_arn = aws_iam_role.cluster_role.arn
+  version  = "1.30"
+  vpc_config {
+
+    subnet_ids              = data.aws_subnets.subnet_id.ids
+    endpoint_private_access = false
+    endpoint_public_access  = true
+    security_group_ids      = [aws_security_group.EKS_SG.id]
+
+  }
 
 }
 
@@ -135,16 +135,16 @@ resource "aws_iam_role_policy_attachment" "eks_node_role-AmazonEC2ContainerRegis
 
 
 resource "aws_eks_node_group" "mynode_node" {
-    cluster_name = aws_eks_cluster.awake-cluster.name
-    node_group_name = "${var.cluster_name}-node"
-    node_role_arn = aws_iam_role.eks_node_role.arn
-    subnet_ids = data.aws_subnets.subnet_id.ids
+  cluster_name    = aws_eks_cluster.awake-cluster.name
+  node_group_name = "${var.cluster_name}-node"
+  node_role_arn   = aws_iam_role.eks_node_role.arn
+  subnet_ids      = data.aws_subnets.subnet_id.ids
 
-    scaling_config {
-        desired_size = 3
-        max_size = 3
-        min_size = 1
-    }
+  scaling_config {
+    desired_size = 3
+    max_size     = 3
+    min_size     = 1
+  }
 
-    instance_types = [var.node_instance_type]
+  instance_types = [var.node_instance_type]
 }

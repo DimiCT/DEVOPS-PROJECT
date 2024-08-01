@@ -1,19 +1,19 @@
 variable "region" {
-    default = ""
+  default = ""
 }
 
 
 
 variable "vpc_id" {
-    default = "vpc-0962f47a21c450031"
-}   
+  default = "vpc-0962f47a21c450031"
+}
 
 variable "cluster_name" {
-    default = "awake-cluster"
+  default = "awake-cluster"
 }
 
 
 
 variable "node_instance_type" {
-    default = "t3.medium"
+  default = "t3.medium"
 }
