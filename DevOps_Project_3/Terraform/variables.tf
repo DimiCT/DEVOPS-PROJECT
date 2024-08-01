@@ -5,7 +5,7 @@ variable "region" {
 
 
 variable "vpc_id" {
-    default = ""
+    default = "vpc-0962f47a21c450031"
 }   
 
 variable "cluster_name" {
