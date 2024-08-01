@@ -58,7 +58,7 @@ resource "aws_security_group" "EKS_SG" {
 
 
 resource "aws_iam_role" "cluster_role" {
-  name = "${var.cluster_name}-awake-cluster-cluster_role"
+  name = "${var.cluster_name}-awake-cluster_role"
 
   assume_role_policy = <<POLICY
 {
@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   role       = aws_iam_role.cluster_role.name
 }
 
-resource "aws_eks_cluster" "awake-cluster" {
+resource "aws_eks_cluster" "awake" {
   name     = var.cluster_name
   role_arn = aws_iam_role.cluster_role.arn
   version  = "1.30"
@@ -135,7 +135,7 @@ resource "aws_iam_role_policy_attachment" "eks_node_role-AmazonEC2ContainerRegis
 
 
 resource "aws_eks_node_group" "mynode_node" {
-  cluster_name    = aws_eks_cluster.awake-cluster.name
+  cluster_name    = aws_eks_cluster.awake.name
   node_group_name = "${var.cluster_name}-node"
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = data.aws_subnets.subnet_id.ids
