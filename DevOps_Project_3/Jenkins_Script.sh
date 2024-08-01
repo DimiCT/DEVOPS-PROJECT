@@ -34,6 +34,8 @@ helm upgrade --install nginx bitnami/nginx
 #installing aws loadbalancer controller
 helm upgrade --install lb-controller eks/aws-load-balancer-controller --set clusterName=$CLUSTER_NAME
 
+#installing Esthesis
+helm repo add esthesis bitnami/nginx --namespace esthesis-namespace --create-namespace --kubeconfig $KUBECONFIG
 
 else
 echo "no need to install"
