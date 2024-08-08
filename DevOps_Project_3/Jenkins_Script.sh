@@ -10,7 +10,7 @@ export TF_VAR_cluster_name=$CLUSTER_NAME
 cd ${WORKSPACE}/DevOps_Project_3/Terraform
 
 #replacing the cluster name field in backend.tf file
-sed -i "s/awake-cluster/$CLUSTER_NAME/g" backend.tf
+sed -i "s/ngg_cluster_name/$CLUSTER_NAME/g" backend.tf
 
 #running terraform command
 terraform init    
@@ -23,10 +23,10 @@ aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION
 kubectl get pods -A
 
 # installing bitnami helm chart
-# helm repo add bitnami https://charts.bitnami.com/bitnami
+ helm repo add bitnami https://charts.bitnami.com/bitnami
 
 #installing eks helm chart
-#helm repo add eks https://aws.github.io/eks-charts
+helm repo add eks https://aws.github.io/eks-charts
 
 
 # Add Helm repositories
@@ -39,7 +39,7 @@ kubectl get pods -A
 
 
 #installing nginx
-#helm upgrade --install nginx bitnami/nginx
+helm upgrade --install nginx bitnami/nginx
 
 # Install/upgrade NGINX using Helm
     helm upgrade --install nginx bitnami/nginx
@@ -47,7 +47,7 @@ kubectl get pods -A
 
 
 #installing aws loadbalancer controller
-#helm upgrade --install lb-controller eks/aws-load-balancer-controller --set clusterName=$CLUSTER_NAME
+helm upgrade --install lb-controller eks/aws-load-balancer-controller --set clusterName=$CLUSTER_NAME
 
  # Install/upgrade AWS Load Balancer Controller using Helm
     helm upgrade --install lb-controller eks/aws-load-balancer-controller --set clusterName=$CLUSTER_NAME
