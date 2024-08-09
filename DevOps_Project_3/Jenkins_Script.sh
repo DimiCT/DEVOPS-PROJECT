@@ -54,7 +54,7 @@ helm upgrade --install lb-controller eks/aws-load-balancer-controller --set clus
 
 
 # Install Esthesis using Helm (assuming Esthesis uses bitnami/nginx chart)
-    helm upgrade --install esthesis bitnami/nginx --namespace esthesis-namespace --create-namespace
+    #helm upgrade --install esthesis bitnami/nginx --namespace esthesis-namespace --create-namespace
 
 else
 echo "no need to install, action is $ACTION"
